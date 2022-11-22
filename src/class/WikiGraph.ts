@@ -1,5 +1,5 @@
 import { Edge, Graph, json } from 'graphlib';
-import { WikiGraphOptions } from '../../constants/WikiGraphOptions';
+import { WikiGraphOptions } from '../constants/WikiGraphOptions';
 
 export class WikiGraph {
 	#graph: Graph;

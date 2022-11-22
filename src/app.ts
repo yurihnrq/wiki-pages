@@ -1,11 +1,12 @@
 import puppeteer from 'puppeteer';
 import { WikiGraph } from './class/WikiGraph';
-import { WikiScraper } from './class/Scraper';
+import { WikiScraper } from './class/WikiScraper';
 
 async function startBrowser() {
 	let browser: puppeteer.Browser | undefined;
 	try {
-		console.log('Opening the browser......');
+		console.log('Opening the browser...');
+
 		browser = await puppeteer.launch({
 			headless: false,
 			args: ['--disable-setuid-sandbox'],
@@ -34,4 +35,6 @@ async function start() {
 	}
 }
 
-start();
+start()
+	.catch(err => console.log(err))
+	.finally(() => console.log('Done!'));

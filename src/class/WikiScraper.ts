@@ -1,5 +1,5 @@
 import puppeteer from 'puppeteer';
-import { WikiGraph } from '../WikiGraph';
+import { WikiGraph } from './WikiGraph';
 import fs from 'fs';
 
 export class WikiScraper {
@@ -25,13 +25,11 @@ export class WikiScraper {
 
 			const pageTitle = await this.getTitle(page);
 
-			const pageInfo = {
+			this.#graph.addNode(this.#url, { title: pageTitle });
+			console.log({
 				title: pageTitle,
-				link: this.#url
-			};
-
-			this.#graph.addNode(this.#url, pageInfo);
-			console.log(pageInfo);
+				url: this.#url
+			});
 
 			const urls = await this.getPageUrls(page);
 
@@ -57,6 +55,8 @@ export class WikiScraper {
 		}
 
 		console.log('Writing data...');
+
+		fs.mkdirSync('data', { recursive: true });
 
 		fs.writeFileSync(
 			'./data/graph.json',
