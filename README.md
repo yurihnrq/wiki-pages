@@ -14,7 +14,7 @@ Ou também, devido ao teorema de Menger pode ser expressa por
 >
 > Grafo que precisa de mais de um vértice ser removido para se tornar desconexo.
 
-### Exemplo de grafo 1-Conexo
+## Exemplo de grafo 1-Conexo
 
 ```mermaid
 graph LR
@@ -63,7 +63,7 @@ w --- a
 
 [DESENHAR DOIS CONJUNTOS G e B, B CONTIDO EM G E FAZER UM CAMINHO INICIANDO EM B E TERMINANDO EM B]
 
-### Propriedades de um bloco
+## Propriedades de um bloco
 
 Uma ponte e um bloco e um vertice isolado tambem
 
@@ -89,13 +89,13 @@ Como os blocos são disjuntos a não ser pelos  vértices de corte (articulaçõ
 
 Logo todo bloco de um grafo ou é um subgrafo conexo maximal, ou é uma ponte ou é um vértice isolado.
 
-### Teoremas de inicio para a prova do teorma geral para grafos 2-conexo
+## Teoremas de inicio para a prova do teorma geral para grafos 2-conexo
 
 > Teorema geral para grafos 2-conexo: Todo grafo 2-conexo e um ciclo inicial unido a H-caminhos
 
 - [DESENHAR UM GRAFO 2-CONEXO E UM CICLO INICIAL E UM H-CAMINHO]
 
-#### Teorema 1
+### Teorema 1
 
 - Se G é um grafo 2-conexo, então G tem um ciclo.
   - Por absurdo, assumimos que G não tem um ciclo
