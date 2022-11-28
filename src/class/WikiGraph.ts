@@ -1,4 +1,6 @@
 import { Edge, Graph, json } from 'graphlib';
+import fs from 'node:fs';
+
 import { WikiGraphOptions } from '../constants/WikiGraphOptions';
 
 export class WikiGraph {
@@ -31,5 +33,9 @@ export class WikiGraph {
 
 	deserialize(serializedGraph: Record<string, unknown>): void {
 		this.#graph = json.read(serializedGraph);
+	}
+
+	writeToFile(path: string): void {
+		fs.writeFileSync(path, JSON.stringify(this.serialize(), null, 2));
 	}
 }

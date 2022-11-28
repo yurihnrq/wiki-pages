@@ -3,18 +3,13 @@ import { WikiGraph } from './class/WikiGraph';
 import { WikiScraper } from './class/WikiScraper';
 
 async function startBrowser() {
-	let browser: puppeteer.Browser | undefined;
-	try {
-		console.log('Opening the browser...');
+	console.log('Opening the browser...');
 
-		browser = await puppeteer.launch({
-			headless: false,
-			args: ['--disable-setuid-sandbox'],
-			ignoreHTTPSErrors: true
-		});
-	} catch (err) {
-		console.log('Could not create a browser instance => : ', err);
-	}
+	const browser = await puppeteer.launch({
+		headless: false,
+		args: ['--disable-setuid-sandbox'],
+		ignoreHTTPSErrors: true
+	});
 
 	return browser;
 }
@@ -25,11 +20,13 @@ async function start() {
 	if (browser) {
 		const graph = new WikiGraph();
 
-		const initialUrl = 'https://pt.wikipedia.org/wiki/Wikip%C3%A9dia';
+		const startingUrl = 'https://pt.wikipedia.org/wiki/Wikip%C3%A9dia';
 
-		const scraper = new WikiScraper(initialUrl, graph, browser);
+		const scraper = new WikiScraper(startingUrl, graph, browser);
 
-		await scraper.scrapData();
+		await scraper.scrapData(20);
+
+		graph.writeToFile('graph.json');
 
 		await browser.close();
 	}
@@ -37,4 +34,8 @@ async function start() {
 
 start()
 	.catch(err => console.log(err))
-	.finally(() => console.log('Done!'));
+	.finally(() => {
+		console.log('Done!');
+
+		process.exit(0);
+	});
