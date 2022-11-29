@@ -26,7 +26,7 @@ async function start() {
 
 		await scraper.scrapData(20);
 
-		graph.writeToFile('graph.json');
+		scraper.writeGraphToFile('graph.json');
 
 		await browser.close();
 	}

@@ -11,7 +11,7 @@ export class WikiGraph {
 		this.#graph.setGraph(this.constructor.name);
 	}
 
-	addNode(node: string, value: unknown): void {
+	addNode(node: string, value?: unknown): void {
 		this.#graph.setNode(node, value);
 	}
 

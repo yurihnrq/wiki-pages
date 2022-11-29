@@ -30,10 +30,9 @@ export class WikiScraper {
 
 			await page.goto(currentUrl);
 
-			const title = await this.getTitle(page);
 			const urlsInPage = await this.getPageUrls(page);
 
-			this.#graph.addNode(currentUrl, { title });
+			this.#graph.addNode(currentUrl);
 
 			urlsInPage.forEach(urlInPage => {
 				if (!this.#graph.hasNode(urlInPage)) {
@@ -47,12 +46,8 @@ export class WikiScraper {
 		}
 	}
 
-	private async getTitle(page: puppeteer.Page) {
-		const selector = '#firstHeading > *';
-
-		await page.waitForSelector(selector);
-
-		return await page.$eval(selector, el => el.innerHTML);
+	writeGraphToFile(path: string) {
+		this.#graph.writeToFile(path);
 	}
 
 	private async getPageUrls(page: puppeteer.Page) {
@@ -68,5 +63,13 @@ export class WikiScraper {
 		console.log(`Found ${urls.length} urls in page`);
 
 		return urls.map(url => this.#baseUrl + url);
+	}
+
+	private async getTitle(page: puppeteer.Page) {
+		const selector = '#firstHeading > *';
+
+		await page.waitForSelector(selector);
+
+		return await page.$eval(selector, el => el.innerHTML);
 	}
 }
