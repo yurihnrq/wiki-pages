@@ -30,7 +30,13 @@ export class WikiScraper {
 
 			await page.goto(currentUrl);
 
-			const urlsInPage = await this.getPageUrls(page);
+			let urlsInPage: string[] = [];
+			try {
+				urlsInPage = await this.getPageUrls(page);
+			} catch (error) {
+				console.log(error);
+				continue;
+			}
 
 			this.#graph.addNode(currentUrl);
 
@@ -54,7 +60,9 @@ export class WikiScraper {
 		const selector =
 			'div#mw-content-text div.mw-parser-output > p:first-of-type > a';
 
-		await page.waitForSelector(selector);
+		await page.waitForSelector(selector, {
+			timeout: 5000
+		});
 
 		const urls = await page.$$eval(selector, anchors =>
 			anchors.map(anchor => anchor.getAttribute('href'))

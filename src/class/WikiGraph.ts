@@ -15,8 +15,26 @@ export class WikiGraph {
 		this.#graph.setNode(node, value);
 	}
 
+	getNodes(): string[] {
+		return this.#graph.nodes();
+	}
+
+	setNodes(nodes: string[]): void {
+		this.#graph.setNodes(nodes);
+	}
+
 	addEdge(src: string, dest: string): void {
 		this.#graph.setEdge(src, dest);
+	}
+
+	removeEdge(src: string, dest: string): void {
+		this.#graph.removeEdge(src, dest);
+	}
+
+	setEdges(edges: Edge[]): void {
+		edges.forEach(edge => {
+			this.#graph.setEdge(edge.v, edge.w);
+		});
 	}
 
 	hasNode(node: string): boolean {
@@ -68,10 +86,8 @@ export class WikiGraph {
 
 		if (!visited.includes(trg)) return [];
 
-		const path: string[] = [];
-
 		let current = trg;
-
+		const path: string[] = [];
 		while (current !== src) {
 			const [dest, src] = parent.find(([dest]) => dest === current) as [
 				string,
@@ -82,8 +98,11 @@ export class WikiGraph {
 
 			current = src;
 		}
+		path.push(src);
 
-		return path.reverse();
+		const correctedPath = path.reverse();
+
+		return correctedPath;
 	}
 
 	/** Returns number of disjoint paths between src and trg. */
@@ -91,8 +110,13 @@ export class WikiGraph {
 		let count = 0;
 		let pathExists = true;
 
+		// Copy graph to avoid mutating original graph
+		const graph = new WikiGraph();
+		graph.setNodes(this.#graph.nodes());
+		graph.setEdges(this.#graph.edges());
+
 		while (pathExists) {
-			const path = this.bfs(src, trg);
+			const path = graph.bfs(src, trg);
 			if (path.length === 0) {
 				pathExists = false;
 				continue;
@@ -103,7 +127,7 @@ export class WikiGraph {
 			for (let i = 0; i < path.length - 1; i++) {
 				const src = path[i];
 				const dest = path[i + 1];
-				this.#graph.removeEdge(src, dest);
+				graph.removeEdge(src, dest);
 			}
 		}
 
