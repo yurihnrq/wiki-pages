@@ -1,12 +1,20 @@
 # Teoremas grafos 2-conexo
 
+## Teorema de Menger
+
+Dados dois vértices $u$ e $v$ não adjacentes em um grafo $G$. O tamanho do conjunto de separação mínimo entre $u$ e $v$ é igual ao número de caminhos $u-v$ disjuntos em $G$.
+
+Caminhos disjuntos -> caminhos de um vértice a outro no qual não nenhum vértice em comum. Se $C1$ e $C2$ são caminhos entre os vértices $u$ e $v$ (conjuntos de vértices), $C1$ e $C2$ serão disjuntos se $\forall \space x \in C1$ temos que $x \notin C2$.
+
+Conjunto de separação mínimo -> conjunto de vértices que se removidos impossibilitam um caminho entre dois vértices, deixando cada um deles em diferentes componentes do grafo (subgrafos).
+
 ## K-Conectividade (Teoremas grafos 2-conexo)
 
-> Dado um grafo conexo, você precisa de remover pelo menos k *vértices* para tornar o grafo desconexo.
+> Dado um grafo conexo, você precisa de remover pelo menos $k$ *vértices* para tornar o grafo desconexo.
 
-Ou também, devido ao teorema de Menger pode ser expressa por
+Ou também, devido ao teorema de Menger pode ser expressa por:
 
-> Dado um grafo conexo, ele é k-conexo se e somente se quaisquer par de vértice existem k caminhos independentes entre eles.
+> Dado um grafo conexo, ele é $k$-conexo se e somente se quaisquer par de vértice existem $k$ caminhos independentes entre eles.
 
 ## Grafo 2-Conexo
 
@@ -50,7 +58,7 @@ w --- a
 
 ## Teorema 3.1.1 Blocos
 
-### Definições (grafos 2-conexo)
+`Definições (grafos 2-conexo):`
 
 | Termo            | Definição                                                                |
 | ---------------- | ------------------------------------------------------------------------ |
@@ -61,9 +69,9 @@ w --- a
 | Ciclo            | Passeio sem vértices repetidos que começa e termina no mesmo vértice     |
 | B-caminho        | Caminho de um subgrafo que passa pelo grafo em que esta contido          |
 
-[DESENHAR DOIS CONJUNTOS G e B, B CONTIDO EM G E FAZER UM CAMINHO INICIANDO EM B E TERMINANDO EM B]
+[DESENHAR DOIS CONJUNTOS $G$ e $B$, $B$ CONTIDO EM $G$ E FAZER UM CAMINHO INICIANDO EM $B$ E TERMINANDO EM $B$]
 
-## Propriedades de um bloco
+### Propriedades de um bloco
 
 Uma ponte e um bloco e um vertice isolado tambem
 
@@ -74,7 +82,7 @@ Portanto todo nó em um grafo está em um único bloco, e este grafo é a união
 1. Os ciclos em um grafo são os ciclos de seus blocos.
 2. As ligações de um grafo são os cortes mínimos de seus blocos.
 
-> Prova
+`Prova:`
 
 1. Qualquer ciclo é um subgrafo conexo sem um vertice de corte (dai vem sua maximidade), logo é um bloco.
    1. [DESENHAR UM CICLO E REMOVER UM VERTICE]
@@ -91,23 +99,23 @@ Logo todo bloco de um grafo ou é um subgrafo conexo maximal, ou é uma ponte ou
 
 ## Teoremas de inicio para a prova do teorma geral para grafos 2-conexo
 
-> Teorema geral para grafos 2-conexo: Todo grafo 2-conexo e um ciclo inicial unido a H-caminhos
+> Teorema geral para grafos 2-conexo: Todo grafo 2-conexo e um ciclo inicial unido a $H$-caminhos
 
-- [DESENHAR UM GRAFO 2-CONEXO E UM CICLO INICIAL E UM H-CAMINHO]
+- [DESENHAR UM GRAFO 2-CONEXO E UM CICLO INICIAL E UM $H$-CAMINHO]
 
 ### Teorema 1
 
 - Se G é um grafo 2-conexo, então G tem um ciclo.
-  - Por absurdo, assumimos que G não tem um ciclo
-  - Logo, G e um grafo que não tem um ciclo -> G seria uma arvore
-  - Arvores por definição são 1-conexos
-  - Absurdo! G e 2-conexo
-  - Logo, G tem um ciclo
+  - Por absurdo, assumimos que $G$ não tem um ciclo;
+  - Logo, $G$ e um grafo que não tem um ciclo -> $G$ seria uma arvore;
+  - Arvores por definição são 1-conexos;
+  - Absurdo! $G$ e 2-conexo;
+  - Logo, $G$ tem um ciclo.
 
 ## Aplicação
 
-- Apresentar o código do wikiscrapper
-- Comentar sobre a forma de popular o grafo (bfs vs dfs)
-- Algorigmo de gerar lista ordenada com base nos critérios
-  1. Quantidade de caminhos disjuntos entre o vértice de origem e o vértice de destino
-  2. Considerando os com a mesma quantidade de caminhos disjuntos, escolher o vértice de menor distância
+- Apresentar o código do WikiScraper
+- Comentar sobre a forma de popular o grafo (BFS vs DFS)
+- Algorigmo de gerar lista ordenada com base nos critérios:
+  1. quantidade de caminhos disjuntos entre o vértice de origem e o vértice de destino;
+  2. menor distância entre o vértice de origem e o vértice de destino.

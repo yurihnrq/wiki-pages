@@ -38,4 +38,51 @@ export class WikiGraph {
 	writeToFile(path: string): void {
 		fs.writeFileSync(path, JSON.stringify(this.serialize(), null, 2));
 	}
+
+	bfs(src: string, trg: string): string[] {
+		const queue: string[] = [];
+		const visited: string[] = [];
+		const parent: [string, string][] = [];
+
+		queue.push(src);
+		visited.push(src);
+
+		while (queue.length > 0) {
+			const node = queue.shift() as string;
+
+			const edges = this.outEdges(node);
+
+			if (edges) {
+				for (const edge of edges) {
+					const dest = edge.w;
+
+					if (!visited.includes(dest)) {
+						visited.push(dest);
+						parent.push([dest, node]);
+
+						queue.push(dest);
+					}
+				}
+			}
+		}
+
+		if (!visited.includes(trg)) return [];
+
+		const path: string[] = [];
+
+		let current = trg;
+
+		while (current !== src) {
+			const [dest, src] = parent.find(([dest]) => dest === current) as [
+				string,
+				string
+			];
+
+			path.push(dest);
+
+			current = src;
+		}
+
+		return path.reverse();
+	}
 }

@@ -132,3 +132,4 @@ dist
 # others
 data
 graph.json
+*.pdf
