@@ -57,49 +57,78 @@ export class WikiGraph {
 		fs.writeFileSync(path, JSON.stringify(this.serialize(), null, 2));
 	}
 
+	/**
+	 * Returns the shortest path between src and trg, found using BFS.
+	 */
 	bfs(src: string, trg: string): string[] {
+		/** Queue of nodes to visit. */
 		const queue: string[] = [];
+		/** Visited nodes list. */
 		const visited: string[] = [];
-		const parent: [string, string][] = [];
+		/**
+		 * List of parents of each node.
+		 *
+		 * Each element is a tuple [child, parent].
+		 */
+		const parents: [string, string][] = [];
 
+		// Add src to the queue and mark it as visited.
 		queue.push(src);
 		visited.push(src);
 
+		// While there are nodes to visit.
 		while (queue.length > 0) {
+			// Get the first node in the queue.
 			const node = queue.shift() as string;
 
+			// Get all edges from the node.
 			const edges = this.outEdges(node);
 
 			if (edges) {
 				for (const edge of edges) {
+					// Get the destination node.
 					const dest = edge.w;
 
+					// If the node has not been visited.
 					if (!visited.includes(dest)) {
+						// Mark node as visited.
 						visited.push(dest);
-						parent.push([dest, node]);
+						// Save parent of node.
+						parents.push([dest, node]);
 
+						// Add node to queue.
 						queue.push(dest);
 					}
 				}
 			}
 		}
 
+		// If the target node has not been visited, there is no path.
 		if (!visited.includes(trg)) return [];
 
+		// Reconstruct path from parents.
+
 		let current = trg;
+		/** Path from src to trg. */
 		const path: string[] = [];
+		// While current node is not src.
 		while (current !== src) {
-			const [dest, src] = parent.find(([dest]) => dest === current) as [
+			// Get parent of current node.
+			const [child, parent] = parents.find(([child]) => child === current) as [
 				string,
 				string
 			];
 
-			path.push(dest);
+			// Add child to path.
+			path.push(child);
 
-			current = src;
+			// Set current node to parent.
+			current = parent;
 		}
+		// Add src to path.
 		path.push(src);
 
+		// Reverse path to get correct order.
 		const correctedPath = path.reverse();
 
 		return correctedPath;
@@ -115,8 +144,12 @@ export class WikiGraph {
 		graph.setNodes(this.#graph.nodes());
 		graph.setEdges(this.#graph.edges());
 
+		// While there is a path between src and trg.
 		while (pathExists) {
+			// Find path between src and trg.
 			const path = graph.bfs(src, trg);
+
+			// If there is no path, break.
 			if (path.length === 0) {
 				pathExists = false;
 				continue;
@@ -124,6 +157,7 @@ export class WikiGraph {
 
 			count++;
 
+			// Remove edges from path.
 			for (let i = 0; i < path.length - 1; i++) {
 				const src = path[i];
 				const dest = path[i + 1];
