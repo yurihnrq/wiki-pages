@@ -85,4 +85,28 @@ export class WikiGraph {
 
 		return path.reverse();
 	}
+
+	/** Returns number of disjoint paths between src and trg. */
+	findDisjointPaths(src: string, trg: string): number {
+		let count = 0;
+		let pathExists = true;
+
+		while (pathExists) {
+			const path = this.bfs(src, trg);
+			if (path.length === 0) {
+				pathExists = false;
+				continue;
+			}
+
+			count++;
+
+			for (let i = 0; i < path.length - 1; i++) {
+				const src = path[i];
+				const dest = path[i + 1];
+				this.#graph.removeEdge(src, dest);
+			}
+		}
+
+		return count;
+	}
 }
