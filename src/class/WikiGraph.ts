@@ -135,9 +135,10 @@ export class WikiGraph {
 	}
 
 	/** Returns number of disjoint paths between src and trg. */
-	findDisjointPaths(src: string, trg: string): number {
+	findDisjointPaths(src: string, trg: string): [number, number] {
 		let count = 0;
 		let pathExists = true;
+		let disjointPathSize = Infinity;
 
 		// Copy graph to avoid mutating original graph
 		const graph = new WikiGraph();
@@ -155,6 +156,10 @@ export class WikiGraph {
 				continue;
 			}
 
+			if (path.length < disjointPathSize) {
+				disjointPathSize = path.length;
+			}
+
 			count++;
 
 			// Remove edges from path.
@@ -165,6 +170,6 @@ export class WikiGraph {
 			}
 		}
 
-		return count;
+		return [count, disjointPathSize];
 	}
 }

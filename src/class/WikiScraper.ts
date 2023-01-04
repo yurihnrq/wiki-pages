@@ -33,6 +33,8 @@ export class WikiScraper {
 			let urlsInPage: string[] = [];
 			try {
 				urlsInPage = await this.getPageUrls(page);
+
+				console.log(urlsInPage);
 			} catch (error) {
 				console.log(error);
 				continue;
@@ -70,7 +72,9 @@ export class WikiScraper {
 
 		console.log(`Found ${urls.length} urls in page`);
 
-		return urls.map(url => this.#baseUrl + url);
+		const validUrls = urls.filter(url => url?.startsWith('/wiki'));
+
+		return validUrls.map(url => this.#baseUrl + url);
 	}
 
 	private async getTitle(page: puppeteer.Page) {
