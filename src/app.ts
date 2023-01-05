@@ -1,12 +1,15 @@
 import puppeteer from 'puppeteer';
+import { ArgumentParser } from './class/ArgumentParser';
 import { WikiGraph } from './class/WikiGraph';
 import { WikiScraper } from './class/WikiScraper';
 
 async function startBrowser() {
 	console.log('Opening the browser...');
 
+	const args = new ArgumentParser(process.argv);
+
 	const browser = await puppeteer.launch({
-		headless: true,
+		headless: args.hasArgument('-h'),
 		args: ['--disable-setuid-sandbox'],
 		ignoreHTTPSErrors: true
 	});
