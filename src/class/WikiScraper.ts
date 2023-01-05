@@ -72,7 +72,16 @@ export class WikiScraper {
 
 		console.log(`Found ${urls.length} urls in page`);
 
-		const validUrls = urls.filter(url => url?.startsWith('/wiki'));
+		const validUrls = urls.filter(url => {
+			if (
+				url?.startsWith('/wiki') &&
+				isNaN(Number(url?.split('/')[2].split('_')[0]))
+			) {
+				return true;
+			}
+
+			return false;
+		});
 
 		return validUrls.map(url => this.#baseUrl + url);
 	}
