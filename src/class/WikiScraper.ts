@@ -2,6 +2,7 @@ import puppeteer from 'puppeteer';
 import { WikiGraph } from './WikiGraph';
 
 export class WikiScraper {
+	#startingUrl = '';
 	#urlsToVisit: string[] = [];
 	#graph: WikiGraph;
 	#browser: puppeteer.Browser;
@@ -15,6 +16,7 @@ export class WikiScraper {
 	) {
 		this.#browser = browser;
 		this.#graph = graph;
+		this.#startingUrl = startingUrl;
 		this.#urlsToVisit.push(startingUrl);
 	}
 
@@ -34,7 +36,7 @@ export class WikiScraper {
 			try {
 				urlsInPage = await this.getPageUrls(page);
 
-				console.log(urlsInPage);
+				// console.log(urlsInPage);
 			} catch (error) {
 				console.log(error);
 				continue;
@@ -86,11 +88,36 @@ export class WikiScraper {
 		return validUrls.map(url => this.#baseUrl + url);
 	}
 
-	private async getTitle(page: puppeteer.Page) {
-		const selector = '#firstHeading > *';
+	public async getSuggestions() {
+		const graph = this.#graph;
+		const startingUrl = this.#startingUrl;
 
-		await page.waitForSelector(selector);
+		// TODO: refat this
+		// getting nodes without starting url
+		const nodes = graph.getNodes();
+		nodes.splice(nodes.indexOf(startingUrl), 1);
 
-		return await page.$eval(selector, el => el.innerHTML);
+		const suggestionList: [string, number, number][] = [];
+
+		for (const node of nodes) {
+			const [count, disjointPathSize] = graph.findDisjointPaths(
+				startingUrl,
+				node
+			);
+
+			suggestionList.push([node, count, disjointPathSize]);
+
+			console.log(
+				`Found ${count} disjoint paths from ${startingUrl} to ${node}`
+			);
+		}
+
+		suggestionList.sort(([, pathQnt1, pathSize1], [, pathQnt2, pathSize2]) => {
+			if (pathQnt1 === pathQnt2) return pathSize1 - pathSize2;
+
+			return pathQnt1 - pathQnt2;
+		});
+
+		return suggestionList;
 	}
 }
