@@ -38,7 +38,7 @@ async function start({
 
 	const sugg = scraper.getSuggestions();
 
-	console.log(sugg);
+	sugg.forEach(item => console.log(item));
 }
 
 start(StartOptions)
