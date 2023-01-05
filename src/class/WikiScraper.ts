@@ -82,16 +82,14 @@ export class WikiScraper {
 		return validUrls.map(url => UrlUtils.getFullUrl(this.#baseUrl, url));
 	}
 
-	public async getSuggestions() {
+	public getSuggestions() {
 		const graph = this.#graph;
 		const startingUrl = this.#startingUrl;
+		const suggestionList: [string, number, number][] = [];
 
-		// TODO: refat this
 		// getting nodes without starting url
 		const nodes = graph.getNodes();
 		nodes.splice(nodes.indexOf(startingUrl), 1);
-
-		const suggestionList: [string, number, number][] = [];
 
 		for (const node of nodes) {
 			const [count, disjointPathSize] = graph.findDisjointPaths(

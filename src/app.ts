@@ -36,7 +36,7 @@ async function start({
 
 	await browser.close();
 
-	const sugg = await scraper.getSuggestions();
+	const sugg = scraper.getSuggestions();
 
 	console.log(sugg);
 }

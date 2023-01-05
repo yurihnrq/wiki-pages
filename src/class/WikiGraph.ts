@@ -156,6 +156,7 @@ export class WikiGraph {
 				continue;
 			}
 
+			// Update to shortest path
 			if (path.length < disjointPathSize) {
 				disjointPathSize = path.length;
 			}
