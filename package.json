@@ -1,40 +1,41 @@
 {
-  "name": "wiki-pages",
-  "version": "1.0.0",
-  "description": "Wikipedia pages relationship",
-  "main": "dist/app.js",
-  "scripts": {
-    "start": "node dist/app.js",
-    "build": "swc src --out-dir dist",
-    "dev": "tsx src/app.ts",
-    "lint": "eslint src --ext .ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [
-    "wikipedia",
-    "graph",
-    "relationship",
-    "webscraper"
-  ],
-  "author": "Yuri Henrique B. Maciel & Guilherme Alves Carvalho",
-  "license": "MIT",
-  "devDependencies": {
-    "@swc/cli": "^0.1.57",
-    "@swc/core": "^1.3.18",
-    "@types/graphlib": "^2.1.8",
-    "@types/node": "^18.11.9",
-    "@types/puppeteer": "^7.0.4",
-    "@typescript-eslint/eslint-plugin": "^5.43.0",
-    "@typescript-eslint/parser": "^5.43.0",
-    "eslint": "^8.28.0",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-prettier": "^4.2.1",
-    "prettier": "^2.7.1",
-    "tsx": "^3.12.1",
-    "typescript": "^4.9.3"
-  },
-  "dependencies": {
-    "graphlib": "^2.1.8",
-    "puppeteer": "^19.2.2"
-  }
+	"name": "wiki-pages",
+	"version": "1.0.0",
+	"description": "Wikipedia pages relationship",
+	"main": "dist/app.js",
+	"scripts": {
+		"start": "node dist/app.js",
+		"build": "swc src --out-dir dist",
+		"dev": "tsx src/app.ts",
+		"devHeadless": "tsx src/app.ts -h",
+		"lint": "eslint src --ext .ts",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"keywords": [
+		"wikipedia",
+		"graph",
+		"relationship",
+		"webscraper"
+	],
+	"author": "Yuri Henrique B. Maciel & Guilherme Alves Carvalho",
+	"license": "MIT",
+	"devDependencies": {
+		"@swc/cli": "^0.1.57",
+		"@swc/core": "^1.3.18",
+		"@types/graphlib": "^2.1.8",
+		"@types/node": "^18.11.9",
+		"@types/puppeteer": "^7.0.4",
+		"@typescript-eslint/eslint-plugin": "^5.43.0",
+		"@typescript-eslint/parser": "^5.43.0",
+		"eslint": "^8.28.0",
+		"eslint-config-prettier": "^8.5.0",
+		"eslint-plugin-prettier": "^4.2.1",
+		"prettier": "^2.7.1",
+		"tsx": "^3.12.1",
+		"typescript": "^4.9.3"
+	},
+	"dependencies": {
+		"graphlib": "^2.1.8",
+		"puppeteer": "^19.2.2"
+	}
 }
