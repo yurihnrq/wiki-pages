@@ -1,4 +1,5 @@
 import puppeteer from 'puppeteer';
+import { UrlUtils } from './UrlUtils';
 import { WikiGraph } from './WikiGraph';
 
 export class WikiScraper {
@@ -68,24 +69,17 @@ export class WikiScraper {
 			timeout: 5000
 		});
 
-		const urls = await page.$$eval(selector, anchors =>
+		const pageUrls = await page.$$eval(selector, anchors =>
 			anchors.map(anchor => anchor.getAttribute('href'))
 		);
 
+		const urls = pageUrls.filter(url => url !== null) as string[];
+
 		console.log(`Found ${urls.length} urls in page`);
 
-		const validUrls = urls.filter(url => {
-			if (
-				url?.startsWith('/wiki') &&
-				isNaN(Number(url?.split('/')[2].split('_')[0]))
-			) {
-				return true;
-			}
+		const validUrls = urls.filter(url => UrlUtils.isWikiAndDateless(url));
 
-			return false;
-		});
-
-		return validUrls.map(url => this.#baseUrl + url);
+		return validUrls.map(url => UrlUtils.getFullUrl(this.#baseUrl, url));
 	}
 
 	public async getSuggestions() {
