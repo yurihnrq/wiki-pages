@@ -2,6 +2,7 @@ import puppeteer from 'puppeteer';
 import { ArgumentParser } from './class/ArgumentParser';
 import { WikiGraph } from './class/WikiGraph';
 import { WikiScraper } from './class/WikiScraper';
+import { StartOptions } from './constants/StartOptions';
 
 async function startBrowser() {
 	console.log('Opening the browser...');
@@ -14,51 +15,33 @@ async function startBrowser() {
 		ignoreHTTPSErrors: true
 	});
 
+	if (!browser) throw Error('No browser detected');
+
 	return browser;
 }
 
-async function start() {
+async function start({
+	startingUrl,
+	maxNodes
+}: {
+	startingUrl: string;
+	maxNodes: number;
+}) {
 	const browser = await startBrowser();
-	if (browser) {
-		const graph = new WikiGraph();
-		const startingUrl = 'https://pt.wikipedia.org/wiki/Wikip%C3%A9dia';
-		const scraper = new WikiScraper(startingUrl, graph, browser);
 
-		await scraper.scrapData(100);
+	const graph = new WikiGraph();
 
-		await browser.close();
+	const scraper = new WikiScraper(startingUrl, graph, browser);
+	await scraper.scrapData(maxNodes);
 
-		const nodes = graph.getNodes();
-		const recList: [string, number, number][] = [];
+	await browser.close();
 
-		for (let i = 0; i < nodes.length; i++) {
-			if (nodes[i] !== startingUrl) {
-				const [count, disjointPathSize] = graph.findDisjointPaths(
-					startingUrl,
-					nodes[i]
-				);
+	const sugg = await scraper.getSuggestions();
 
-				recList.push([nodes[i], count, disjointPathSize]);
-
-				console.log(
-					`Found ${count} disjoint paths from ${startingUrl} to ${nodes[i]}`
-				);
-			}
-		}
-
-		recList.sort(([, pathQnt1, pathSize1], [, pathQnt2, pathSize2]) => {
-			if (pathQnt1 === pathQnt2) return pathSize1 - pathSize2;
-
-			return pathQnt1 - pathQnt2;
-		});
-
-		recList.forEach(item => {
-			console.log(item);
-		});
-	}
+	console.log(sugg);
 }
 
-start()
+start(StartOptions)
 	.catch(err => console.log(err))
 	.finally(() => {
 		console.log('Done!');
