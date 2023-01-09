@@ -34,9 +34,9 @@ async function start({
 	const scraper = new WikiScraper(startingUrl, graph, browser);
 
 	try {
-		graph.readFromFile("./out/source.json")
+		graph.readFromFile('./out/source.json');
 	} catch (error) {
-		console.error(error)
+		console.error(error);
 		await scraper.scrapData(maxNodes);
 	}
 
@@ -46,7 +46,7 @@ async function start({
 
 	sugg.forEach(item => console.log(item));
 
-	graph.writeToFile("./out/source.json");
+	graph.writeToFile('./out/source.json');
 }
 
 start(StartOptions)
