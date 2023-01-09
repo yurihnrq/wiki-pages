@@ -32,13 +32,21 @@ async function start({
 	const graph = new WikiGraph();
 
 	const scraper = new WikiScraper(startingUrl, graph, browser);
-	await scraper.scrapData(maxNodes);
+
+	try {
+		graph.readFromFile("./out/source.json")
+	} catch (error) {
+		console.error(error)
+		await scraper.scrapData(maxNodes);
+	}
 
 	await browser.close();
 
 	const sugg = scraper.getSuggestions();
 
 	sugg.forEach(item => console.log(item));
+
+	graph.writeToFile("./out/source.json");
 }
 
 start(StartOptions)

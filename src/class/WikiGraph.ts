@@ -56,6 +56,10 @@ export class WikiGraph {
 	writeToFile(path: string): void {
 		fs.writeFileSync(path, JSON.stringify(this.serialize(), null, 2));
 	}
+	readFromFile(path: string): void {
+		const json = fs.readFileSync(path)
+		this.deserialize(JSON.parse(json.toString()))
+	}
 
 	/**
 	 * Returns the shortest path between src and trg, found using BFS.
