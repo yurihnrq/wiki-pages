@@ -52,7 +52,6 @@ export class WikiScraper {
 				console.log(error);
 			}
 			this.#visitedCount++;
-			continue;
 		}
 	}
 
