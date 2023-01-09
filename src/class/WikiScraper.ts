@@ -25,35 +25,34 @@ export class WikiScraper {
 		this.#visitedCount = 0;
 		const [page] = await this.#browser.pages();
 
-		while (this.#visitedCount < qntNodes) {
+		while (this.#visitedCount < qntNodes && this.#urlsToVisit.length > 0) {
 			const currentUrl = this.#urlsToVisit.shift();
 			if (!currentUrl) break;
 
-			console.log(`Visiting`, currentUrl);
-
-			await page.goto(currentUrl);
-
-			let urlsInPage: string[] = [];
 			try {
+				console.log(`Visiting`, currentUrl);
+
+				await page.goto(currentUrl, {
+					timeout: 5000
+				});
+
+				let urlsInPage: string[] = [];
 				urlsInPage = await this.getPageUrls(page);
 
-				// console.log(urlsInPage);
+				this.#graph.addNode(currentUrl);
+
+				urlsInPage.forEach(urlInPage => {
+					if (!this.#graph.hasNode(urlInPage)) {
+						this.#urlsToVisit.push(urlInPage);
+					}
+
+					this.#graph.addEdge(currentUrl, urlInPage);
+				});
 			} catch (error) {
 				console.log(error);
-				continue;
 			}
-
-			this.#graph.addNode(currentUrl);
-
-			urlsInPage.forEach(urlInPage => {
-				if (!this.#graph.hasNode(urlInPage)) {
-					this.#urlsToVisit.push(urlInPage);
-				}
-
-				this.#graph.addEdge(currentUrl, urlInPage);
-			});
-
 			this.#visitedCount++;
+			continue;
 		}
 	}
 
