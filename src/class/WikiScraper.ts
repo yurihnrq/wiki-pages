@@ -52,6 +52,7 @@ export class WikiScraper {
 				console.log(error);
 			}
 			this.#visitedCount++;
+			console.log(`Visited ${this.#visitedCount}/${qntNodes} pages.`);
 		}
 	}
 
