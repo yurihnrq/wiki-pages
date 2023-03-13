@@ -97,7 +97,7 @@ Como os blocos são disjuntos a não ser pelos  vértices de corte (articulaçõ
 
 Logo todo bloco de um grafo ou é um subgrafo conexo maximal, ou é uma ponte ou é um vértice isolado.
 
-## Teoremas de inicio para a prova do teorma geral para grafos 2-conexo
+## Teoremas de inicio para a prova do teorema geral para grafos 2-conexo
 
 > Teorema geral para grafos 2-conexo: Todo grafo 2-conexo e um ciclo inicial unido a $H$-caminhos
 
